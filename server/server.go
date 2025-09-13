@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"io"
 	"log"
 	"net"
+	"os"
+	"strings"
 	"time"
 
-	"github.com/aayushxrj/gRPC-streaming-demo/proto/gen"
+	mainpb "github.com/aayushxrj/gRPC-streaming-demo/proto/gen"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
@@ -22,12 +26,12 @@ func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.C
 	for i := 0; i < int(n); i++ {
 		err := stream.Send(&mainpb.FibonacciResponse{
 			Number: int32(a),
-		})		
-		log.Println("Sent number:",a)
+		})
+		log.Println("Sent number:", a)
 		if err != nil {
 			return err
 		}
-		a,b = b, a+b
+		a, b = b, a+b
 		time.Sleep(time.Second)
 	}
 	return nil
@@ -45,12 +49,49 @@ func (s *server) SendNumbers(stream mainpb.Calculator_SendNumbersServer) error {
 			return err
 		}
 		log.Println(req.GetNumber())
-		
+
 		sum += req.GetNumber()
 	}
 }
 
-func main (){
+func (s *server) Chat(stream mainpb.Calculator_ChatServer) error {
+
+	// read from terminal
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		// receiving value/messages from stream
+		req, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalln(err)
+		}
+		log.Println("Received Message:", req.GetMessage())
+
+		// sending value/messages through the stream
+
+		fmt.Print("Enter response:")
+		msg, err := reader.ReadString('\n')
+		if err != nil {
+			log.Fatalln(err)
+		}
+		msg = strings.TrimSpace(msg)
+
+		err = stream.Send(&mainpb.ChatMessage{
+			Message: msg,
+			// Message: req.GetMessage(),
+		})
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+	fmt.Println("Returning control")
+	return nil
+}
+
+func main() {
 
 	port := ":50051"
 	cert := "cert.pem"

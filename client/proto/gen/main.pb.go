@@ -293,6 +293,50 @@ func (x *NumberResponse) GetSum() int32 {
 	return 0
 }
 
+type ChatMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChatMessage) Reset() {
+	*x = ChatMessage{}
+	mi := &file_proto_main_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChatMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChatMessage) ProtoMessage() {}
+
+func (x *ChatMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_main_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChatMessage.ProtoReflect.Descriptor instead.
+func (*ChatMessage) Descriptor() ([]byte, []int) {
+	return file_proto_main_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ChatMessage) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_proto_main_proto protoreflect.FileDescriptor
 
 const file_proto_main_proto_rawDesc = "" +
@@ -312,12 +356,15 @@ const file_proto_main_proto_rawDesc = "" +
 	"\rNumberRequest\x12\x16\n" +
 	"\x06number\x18\x01 \x01(\x05R\x06number\"\"\n" +
 	"\x0eNumberResponse\x12\x10\n" +
-	"\x03sum\x18\x01 \x01(\x05R\x03sum2\xe0\x01\n" +
+	"\x03sum\x18\x01 \x01(\x05R\x03sum\"'\n" +
+	"\vChatMessage\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\x9e\x02\n" +
 	"\n" +
 	"Calculator\x126\n" +
 	"\x03Add\x12\x16.calculator.AddRequest\x1a\x17.calculator.AddResponse\x12R\n" +
 	"\x11GenerateFibonacci\x12\x1c.calculator.FibonacciRequest\x1a\x1d.calculator.FibonacciResponse0\x01\x12F\n" +
-	"\vSendNumbers\x12\x19.calculator.NumberRequest\x1a\x1a.calculator.NumberResponse(\x01B\x13Z\x11/proto/gen;mainpbb\x06proto3"
+	"\vSendNumbers\x12\x19.calculator.NumberRequest\x1a\x1a.calculator.NumberResponse(\x01\x12<\n" +
+	"\x04Chat\x12\x17.calculator.ChatMessage\x1a\x17.calculator.ChatMessage(\x010\x01B\x13Z\x11/proto/gen;mainpbb\x06proto3"
 
 var (
 	file_proto_main_proto_rawDescOnce sync.Once
@@ -331,7 +378,7 @@ func file_proto_main_proto_rawDescGZIP() []byte {
 	return file_proto_main_proto_rawDescData
 }
 
-var file_proto_main_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_proto_main_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_proto_main_proto_goTypes = []any{
 	(*AddRequest)(nil),        // 0: calculator.AddRequest
 	(*AddResponse)(nil),       // 1: calculator.AddResponse
@@ -339,16 +386,19 @@ var file_proto_main_proto_goTypes = []any{
 	(*FibonacciResponse)(nil), // 3: calculator.FibonacciResponse
 	(*NumberRequest)(nil),     // 4: calculator.NumberRequest
 	(*NumberResponse)(nil),    // 5: calculator.NumberResponse
+	(*ChatMessage)(nil),       // 6: calculator.ChatMessage
 }
 var file_proto_main_proto_depIdxs = []int32{
 	0, // 0: calculator.Calculator.Add:input_type -> calculator.AddRequest
 	2, // 1: calculator.Calculator.GenerateFibonacci:input_type -> calculator.FibonacciRequest
 	4, // 2: calculator.Calculator.SendNumbers:input_type -> calculator.NumberRequest
-	1, // 3: calculator.Calculator.Add:output_type -> calculator.AddResponse
-	3, // 4: calculator.Calculator.GenerateFibonacci:output_type -> calculator.FibonacciResponse
-	5, // 5: calculator.Calculator.SendNumbers:output_type -> calculator.NumberResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	6, // 3: calculator.Calculator.Chat:input_type -> calculator.ChatMessage
+	1, // 4: calculator.Calculator.Add:output_type -> calculator.AddResponse
+	3, // 5: calculator.Calculator.GenerateFibonacci:output_type -> calculator.FibonacciResponse
+	5, // 6: calculator.Calculator.SendNumbers:output_type -> calculator.NumberResponse
+	6, // 7: calculator.Calculator.Chat:output_type -> calculator.ChatMessage
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -365,7 +415,7 @@ func file_proto_main_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_main_proto_rawDesc), len(file_proto_main_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
