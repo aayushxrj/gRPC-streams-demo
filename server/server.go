@@ -15,6 +15,7 @@ import (
 	"google.golang.org/grpc/credentials"
 
 	_ "google.golang.org/grpc/encoding/gzip"
+	"google.golang.org/grpc/metadata"
 )
 
 type server struct {
@@ -22,6 +23,24 @@ type server struct {
 }
 
 func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.Calculator_GenerateFibonacciServer) error {
+	ctx := stream.Context()
+	md, ok  := metadata.FromIncomingContext(ctx)
+	if !ok {
+		log.Println("No metadata recieved")
+	}
+	fmt.Println("Metadata recieved:", md)
+	val, ok := md["authorization"]
+	if !ok {
+		log.Println("No metadata recieved")
+	}
+	log.Println("Authorization:", val)
+
+	// Response headers to client
+	responseHeaders := metadata.Pairs("test", "testing1","test2", "testing2",)
+	if err := stream.SendHeader(responseHeaders); err != nil {
+		return err
+	}
+
 	n := req.GetN()
 	a, b := 0, 1
 
@@ -36,6 +55,13 @@ func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.C
 		a, b = b, a+b
 		time.Sleep(time.Second)
 	}
+
+	trailer := metadata.New(map[string]string{
+		"end-status":   "completed",
+		"processed-by": "fibonacci-service",
+	})
+	stream.SetTrailer(trailer)
+	
 	return nil
 }
 

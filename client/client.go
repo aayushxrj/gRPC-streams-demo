@@ -13,6 +13,7 @@ import (
 
 	
 	"google.golang.org/grpc/encoding/gzip"
+	"google.golang.org/grpc/metadata"
 )
 
 func main() {
@@ -29,7 +30,7 @@ func main() {
 	conn, err := grpc.NewClient(
 		"localhost"+port, 
 		grpc.WithTransportCredentials(creds),
-		grpc.WithDefaultCallOptions(grpc.UseCompressor(gzip.Name))
+		grpc.WithDefaultCallOptions(grpc.UseCompressor(gzip.Name)),
 	)
 	if err != nil {
 		log.Println("Unable to connet", err)
@@ -47,10 +48,21 @@ func main() {
 		N: 1,
 	}
 
+	// Headers ofr GRPC
+	md := metadata.Pairs("authorization", "Bearer=rgnjwgew4njwowewkogmerg", "test", "testing123")
+	ctx = metadata.NewOutgoingContext(ctx, md)
+
 	stream, err := client.GenerateFibonacci(ctx, req, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		log.Fatalln("Error calling GenerateFibonacci RPC", err)
 	}
+
+	// Read headers (must be called after RPC starts)
+	header, err := stream.Header()
+	if err != nil {
+		log.Println("Error reading headers:", err)
+	}
+	log.Println("Received headers:", header)
 
 	for {
 		res, err := stream.Recv()
@@ -64,6 +76,10 @@ func main() {
 
 		log.Println("Received Number:", res.Number)
 	}
+
+	// Read trailers after Recv loop ends
+	trailer := stream.Trailer()
+	log.Println("Received trailers:", trailer)
 
 	// Client side streaming
 
