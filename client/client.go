@@ -34,8 +34,10 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
+	// Server side streaming
+
 	req := &mainpb.FibonacciRequest{
-		N: 10,
+		N: 1,
 	}
 
 	stream, err := client.GenerateFibonacci(ctx, req)
@@ -47,11 +49,34 @@ func main() {
 		res, err := stream.Recv()
 		if err == io.EOF {
 			log.Println("End of strearm data")
+			break
 		}
 		if err != nil {
-			log.Fatalln("Error receiving data from RPC", err)
+			log.Println("Error receiving data from RPC", err)
 		}
 
 		log.Println("Received Number:", res.Number)
 	}
+
+	// Client side streaming
+
+	stream1, err := client.SendNumbers(ctx)
+	if err != nil {
+		log.Fatalln("Error creating stream", err)
+	}
+	
+	for num := range 10 {
+		err := stream1.Send(&mainpb.NumberRequest{Number : int32(num)})
+		if err != nil {
+			log.Fatalln("Error sending Number:", err)
+		}
+	} 
+
+	res, err := stream1.CloseAndRecv()
+	if err != nil {
+		log.Println("Error receiving response:", err)
+	}
+
+	log.Println("Sum is:",res.Sum)
+	
 }

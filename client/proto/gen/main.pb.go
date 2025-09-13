@@ -205,6 +205,94 @@ func (x *FibonacciResponse) GetNumber() int32 {
 	return 0
 }
 
+type NumberRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Number        int32                  `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NumberRequest) Reset() {
+	*x = NumberRequest{}
+	mi := &file_proto_main_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NumberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NumberRequest) ProtoMessage() {}
+
+func (x *NumberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_main_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NumberRequest.ProtoReflect.Descriptor instead.
+func (*NumberRequest) Descriptor() ([]byte, []int) {
+	return file_proto_main_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *NumberRequest) GetNumber() int32 {
+	if x != nil {
+		return x.Number
+	}
+	return 0
+}
+
+type NumberResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sum           int32                  `protobuf:"varint,1,opt,name=sum,proto3" json:"sum,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NumberResponse) Reset() {
+	*x = NumberResponse{}
+	mi := &file_proto_main_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NumberResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NumberResponse) ProtoMessage() {}
+
+func (x *NumberResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_main_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NumberResponse.ProtoReflect.Descriptor instead.
+func (*NumberResponse) Descriptor() ([]byte, []int) {
+	return file_proto_main_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *NumberResponse) GetSum() int32 {
+	if x != nil {
+		return x.Sum
+	}
+	return 0
+}
+
 var File_proto_main_proto protoreflect.FileDescriptor
 
 const file_proto_main_proto_rawDesc = "" +
@@ -220,11 +308,16 @@ const file_proto_main_proto_rawDesc = "" +
 	"\x10FibonacciRequest\x12\f\n" +
 	"\x01n\x18\x01 \x01(\x05R\x01n\"+\n" +
 	"\x11FibonacciResponse\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\x05R\x06number2\x98\x01\n" +
+	"\x06number\x18\x01 \x01(\x05R\x06number\"'\n" +
+	"\rNumberRequest\x12\x16\n" +
+	"\x06number\x18\x01 \x01(\x05R\x06number\"\"\n" +
+	"\x0eNumberResponse\x12\x10\n" +
+	"\x03sum\x18\x01 \x01(\x05R\x03sum2\xe0\x01\n" +
 	"\n" +
 	"Calculator\x126\n" +
 	"\x03Add\x12\x16.calculator.AddRequest\x1a\x17.calculator.AddResponse\x12R\n" +
-	"\x11GenerateFibonacci\x12\x1c.calculator.FibonacciRequest\x1a\x1d.calculator.FibonacciResponse0\x01B\x13Z\x11/proto/gen;mainpbb\x06proto3"
+	"\x11GenerateFibonacci\x12\x1c.calculator.FibonacciRequest\x1a\x1d.calculator.FibonacciResponse0\x01\x12F\n" +
+	"\vSendNumbers\x12\x19.calculator.NumberRequest\x1a\x1a.calculator.NumberResponse(\x01B\x13Z\x11/proto/gen;mainpbb\x06proto3"
 
 var (
 	file_proto_main_proto_rawDescOnce sync.Once
@@ -238,20 +331,24 @@ func file_proto_main_proto_rawDescGZIP() []byte {
 	return file_proto_main_proto_rawDescData
 }
 
-var file_proto_main_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_proto_main_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_proto_main_proto_goTypes = []any{
 	(*AddRequest)(nil),        // 0: calculator.AddRequest
 	(*AddResponse)(nil),       // 1: calculator.AddResponse
 	(*FibonacciRequest)(nil),  // 2: calculator.FibonacciRequest
 	(*FibonacciResponse)(nil), // 3: calculator.FibonacciResponse
+	(*NumberRequest)(nil),     // 4: calculator.NumberRequest
+	(*NumberResponse)(nil),    // 5: calculator.NumberResponse
 }
 var file_proto_main_proto_depIdxs = []int32{
 	0, // 0: calculator.Calculator.Add:input_type -> calculator.AddRequest
 	2, // 1: calculator.Calculator.GenerateFibonacci:input_type -> calculator.FibonacciRequest
-	1, // 2: calculator.Calculator.Add:output_type -> calculator.AddResponse
-	3, // 3: calculator.Calculator.GenerateFibonacci:output_type -> calculator.FibonacciResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	4, // 2: calculator.Calculator.SendNumbers:input_type -> calculator.NumberRequest
+	1, // 3: calculator.Calculator.Add:output_type -> calculator.AddResponse
+	3, // 4: calculator.Calculator.GenerateFibonacci:output_type -> calculator.FibonacciResponse
+	5, // 5: calculator.Calculator.SendNumbers:output_type -> calculator.NumberResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -268,7 +365,7 @@ func file_proto_main_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_main_proto_rawDesc), len(file_proto_main_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
