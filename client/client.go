@@ -10,6 +10,9 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+
+	
+	"google.golang.org/grpc/encoding/gzip"
 )
 
 func main() {
@@ -23,7 +26,11 @@ func main() {
 		log.Fatal("Failed to load credentials:", err)
 	}
 
-	conn, err := grpc.NewClient("localhost"+port, grpc.WithTransportCredentials(creds))
+	conn, err := grpc.NewClient(
+		"localhost"+port, 
+		grpc.WithTransportCredentials(creds),
+		grpc.WithDefaultCallOptions(grpc.UseCompressor(gzip.Name))
+	)
 	if err != nil {
 		log.Println("Unable to connet", err)
 	}
@@ -40,7 +47,7 @@ func main() {
 		N: 1,
 	}
 
-	stream, err := client.GenerateFibonacci(ctx, req)
+	stream, err := client.GenerateFibonacci(ctx, req, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		log.Fatalln("Error calling GenerateFibonacci RPC", err)
 	}
