@@ -61,8 +61,8 @@ func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.C
 		"processed-by": "fibonacci-service",
 	})
 	stream.SetTrailer(trailer)
-	
-	return nil
+
+	return nil 
 }
 
 func (s *server) SendNumbers(stream mainpb.Calculator_SendNumbersServer) error {
