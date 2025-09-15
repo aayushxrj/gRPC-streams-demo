@@ -62,7 +62,7 @@ func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.C
 	})
 	stream.SetTrailer(trailer)
 
-	return nil 
+	return nil  
 }
 
 func (s *server) SendNumbers(stream mainpb.Calculator_SendNumbersServer) error {
