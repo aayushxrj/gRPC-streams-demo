@@ -1,18 +1,18 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io"
 	"log"
 	"net"
-	"os"
-	"strings"
 	"time"
 
 	mainpb "github.com/aayushxrj/gRPC-streaming-demo/proto/gen"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 
 	_ "google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/metadata"
@@ -23,8 +23,13 @@ type server struct {
 }
 
 func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.Calculator_GenerateFibonacciServer) error {
+	// Validate request
+	if err := req.Validate(); err != nil {
+		return status.Errorf(codes.InvalidArgument, "validation failed: %v", err)
+	}
+
 	ctx := stream.Context()
-	md, ok  := metadata.FromIncomingContext(ctx)
+	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		log.Println("No metadata recieved")
 	}
@@ -36,7 +41,7 @@ func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.C
 	log.Println("Authorization:", val)
 
 	// Response headers to client
-	responseHeaders := metadata.Pairs("test", "testing1","test2", "testing2",)
+	responseHeaders := metadata.Pairs("test", "testing1", "test2", "testing2")
 	if err := stream.SendHeader(responseHeaders); err != nil {
 		return err
 	}
@@ -62,7 +67,7 @@ func (s *server) GenerateFibonacci(req *mainpb.FibonacciRequest, stream mainpb.C
 	})
 	stream.SetTrailer(trailer)
 
-	return nil  
+	return nil
 }
 
 func (s *server) SendNumbers(stream mainpb.Calculator_SendNumbersServer) error {
@@ -76,43 +81,39 @@ func (s *server) SendNumbers(stream mainpb.Calculator_SendNumbersServer) error {
 		if err != nil {
 			return err
 		}
-		log.Println(req.GetNumber())
 
+		// Validate each incoming request
+		if err := req.Validate(); err != nil {
+			return status.Errorf(codes.InvalidArgument, "validation failed: %v", err)
+		}
+
+		log.Println(req.GetNumber())
 		sum += req.GetNumber()
 	}
 }
 
 func (s *server) Chat(stream mainpb.Calculator_ChatServer) error {
-
-	// read from terminal
-	reader := bufio.NewReader(os.Stdin)
-
 	for {
-		// receiving value/messages from stream
 		req, err := stream.Recv()
 		if err == io.EOF {
 			break
 		}
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
+
+		// Validate incoming chat messages
+		if err := req.Validate(); err != nil {
+			return status.Errorf(codes.InvalidArgument, "validation failed: %v", err)
+		}
+
 		log.Println("Received Message:", req.GetMessage())
 
-		// sending value/messages through the stream
-
-		fmt.Print("Enter response:")
-		msg, err := reader.ReadString('\n')
-		if err != nil {
-			log.Fatalln(err)
-		}
-		msg = strings.TrimSpace(msg)
-
 		err = stream.Send(&mainpb.ChatMessage{
-			Message: msg,
-			// Message: req.GetMessage(),
+			Message: req.GetMessage(),
 		})
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 	}
 	fmt.Println("Returning control")
@@ -120,7 +121,6 @@ func (s *server) Chat(stream mainpb.Calculator_ChatServer) error {
 }
 
 func main() {
-
 	port := ":50051"
 	cert := "cert.pem"
 	key := "key.pem"
@@ -138,7 +138,10 @@ func main() {
 
 	mainpb.RegisterCalculatorServer(grpcServer, &server{})
 
-	log.Printf("Server is running on the port%s", port)
+	// enable reflection
+	reflection.Register(grpcServer)
+
+	log.Printf("Server is running on the port %s", port)
 	err = grpcServer.Serve(lis)
 	if err != nil {
 		log.Fatal("Failed to serve:", err)

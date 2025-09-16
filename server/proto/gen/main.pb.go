@@ -2,11 +2,12 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v6.32.0
-// source: proto/main.proto
+// source: main.proto
 
 package mainpb
 
 import (
+	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -23,15 +24,15 @@ const (
 
 type AddRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	A             int32                  `protobuf:"varint,1,opt,name=a,proto3" json:"a,omitempty"`
-	B             int32                  `protobuf:"varint,2,opt,name=b,proto3" json:"b,omitempty"`
+	A             int32                  `protobuf:"varint,1,opt,name=a,proto3" json:"a,omitempty"` // must be > 0
+	B             int32                  `protobuf:"varint,2,opt,name=b,proto3" json:"b,omitempty"` // must be > 0
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AddRequest) Reset() {
 	*x = AddRequest{}
-	mi := &file_proto_main_proto_msgTypes[0]
+	mi := &file_main_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +44,7 @@ func (x *AddRequest) String() string {
 func (*AddRequest) ProtoMessage() {}
 
 func (x *AddRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_main_proto_msgTypes[0]
+	mi := &file_main_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +57,7 @@ func (x *AddRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddRequest.ProtoReflect.Descriptor instead.
 func (*AddRequest) Descriptor() ([]byte, []int) {
-	return file_proto_main_proto_rawDescGZIP(), []int{0}
+	return file_main_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *AddRequest) GetA() int32 {
@@ -82,7 +83,7 @@ type AddResponse struct {
 
 func (x *AddResponse) Reset() {
 	*x = AddResponse{}
-	mi := &file_proto_main_proto_msgTypes[1]
+	mi := &file_main_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +95,7 @@ func (x *AddResponse) String() string {
 func (*AddResponse) ProtoMessage() {}
 
 func (x *AddResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_main_proto_msgTypes[1]
+	mi := &file_main_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +108,7 @@ func (x *AddResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddResponse.ProtoReflect.Descriptor instead.
 func (*AddResponse) Descriptor() ([]byte, []int) {
-	return file_proto_main_proto_rawDescGZIP(), []int{1}
+	return file_main_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *AddResponse) GetSum() int32 {
@@ -119,14 +120,14 @@ func (x *AddResponse) GetSum() int32 {
 
 type FibonacciRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	N             int32                  `protobuf:"varint,1,opt,name=n,proto3" json:"n,omitempty"` // number of fibonacci numbers
+	N             int32                  `protobuf:"varint,1,opt,name=n,proto3" json:"n,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *FibonacciRequest) Reset() {
 	*x = FibonacciRequest{}
-	mi := &file_proto_main_proto_msgTypes[2]
+	mi := &file_main_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +139,7 @@ func (x *FibonacciRequest) String() string {
 func (*FibonacciRequest) ProtoMessage() {}
 
 func (x *FibonacciRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_main_proto_msgTypes[2]
+	mi := &file_main_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +152,7 @@ func (x *FibonacciRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FibonacciRequest.ProtoReflect.Descriptor instead.
 func (*FibonacciRequest) Descriptor() ([]byte, []int) {
-	return file_proto_main_proto_rawDescGZIP(), []int{2}
+	return file_main_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *FibonacciRequest) GetN() int32 {
@@ -163,14 +164,14 @@ func (x *FibonacciRequest) GetN() int32 {
 
 type FibonacciResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Number        int32                  `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"` // individual fibonacci numbers
+	Number        int32                  `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *FibonacciResponse) Reset() {
 	*x = FibonacciResponse{}
-	mi := &file_proto_main_proto_msgTypes[3]
+	mi := &file_main_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -182,7 +183,7 @@ func (x *FibonacciResponse) String() string {
 func (*FibonacciResponse) ProtoMessage() {}
 
 func (x *FibonacciResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_main_proto_msgTypes[3]
+	mi := &file_main_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -195,7 +196,7 @@ func (x *FibonacciResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FibonacciResponse.ProtoReflect.Descriptor instead.
 func (*FibonacciResponse) Descriptor() ([]byte, []int) {
-	return file_proto_main_proto_rawDescGZIP(), []int{3}
+	return file_main_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *FibonacciResponse) GetNumber() int32 {
@@ -214,7 +215,7 @@ type NumberRequest struct {
 
 func (x *NumberRequest) Reset() {
 	*x = NumberRequest{}
-	mi := &file_proto_main_proto_msgTypes[4]
+	mi := &file_main_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -226,7 +227,7 @@ func (x *NumberRequest) String() string {
 func (*NumberRequest) ProtoMessage() {}
 
 func (x *NumberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_main_proto_msgTypes[4]
+	mi := &file_main_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -239,7 +240,7 @@ func (x *NumberRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NumberRequest.ProtoReflect.Descriptor instead.
 func (*NumberRequest) Descriptor() ([]byte, []int) {
-	return file_proto_main_proto_rawDescGZIP(), []int{4}
+	return file_main_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *NumberRequest) GetNumber() int32 {
@@ -258,7 +259,7 @@ type NumberResponse struct {
 
 func (x *NumberResponse) Reset() {
 	*x = NumberResponse{}
-	mi := &file_proto_main_proto_msgTypes[5]
+	mi := &file_main_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -270,7 +271,7 @@ func (x *NumberResponse) String() string {
 func (*NumberResponse) ProtoMessage() {}
 
 func (x *NumberResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_main_proto_msgTypes[5]
+	mi := &file_main_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -283,7 +284,7 @@ func (x *NumberResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NumberResponse.ProtoReflect.Descriptor instead.
 func (*NumberResponse) Descriptor() ([]byte, []int) {
-	return file_proto_main_proto_rawDescGZIP(), []int{5}
+	return file_main_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *NumberResponse) GetSum() int32 {
@@ -302,7 +303,7 @@ type ChatMessage struct {
 
 func (x *ChatMessage) Reset() {
 	*x = ChatMessage{}
-	mi := &file_proto_main_proto_msgTypes[6]
+	mi := &file_main_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -314,7 +315,7 @@ func (x *ChatMessage) String() string {
 func (*ChatMessage) ProtoMessage() {}
 
 func (x *ChatMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_main_proto_msgTypes[6]
+	mi := &file_main_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +328,7 @@ func (x *ChatMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChatMessage.ProtoReflect.Descriptor instead.
 func (*ChatMessage) Descriptor() ([]byte, []int) {
-	return file_proto_main_proto_rawDescGZIP(), []int{6}
+	return file_main_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ChatMessage) GetMessage() string {
@@ -337,28 +338,29 @@ func (x *ChatMessage) GetMessage() string {
 	return ""
 }
 
-var File_proto_main_proto protoreflect.FileDescriptor
+var File_main_proto protoreflect.FileDescriptor
 
-const file_proto_main_proto_rawDesc = "" +
+const file_main_proto_rawDesc = "" +
 	"\n" +
-	"\x10proto/main.proto\x12\n" +
-	"calculator\"(\n" +
 	"\n" +
-	"AddRequest\x12\f\n" +
-	"\x01a\x18\x01 \x01(\x05R\x01a\x12\f\n" +
-	"\x01b\x18\x02 \x01(\x05R\x01b\"\x1f\n" +
+	"main.proto\x12\n" +
+	"calculator\x1a\x17validate/validate.proto\":\n" +
+	"\n" +
+	"AddRequest\x12\x15\n" +
+	"\x01a\x18\x01 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\x01a\x12\x15\n" +
+	"\x01b\x18\x02 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\x01b\"\x1f\n" +
 	"\vAddResponse\x12\x10\n" +
-	"\x03sum\x18\x01 \x01(\x05R\x03sum\" \n" +
-	"\x10FibonacciRequest\x12\f\n" +
-	"\x01n\x18\x01 \x01(\x05R\x01n\"+\n" +
+	"\x03sum\x18\x01 \x01(\x05R\x03sum\"+\n" +
+	"\x10FibonacciRequest\x12\x17\n" +
+	"\x01n\x18\x01 \x01(\x05B\t\xfaB\x06\x1a\x04\x182(\x01R\x01n\"+\n" +
 	"\x11FibonacciResponse\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\x05R\x06number\"'\n" +
-	"\rNumberRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\x05R\x06number\"\"\n" +
+	"\x06number\x18\x01 \x01(\x05R\x06number\"0\n" +
+	"\rNumberRequest\x12\x1f\n" +
+	"\x06number\x18\x01 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\x06number\"\"\n" +
 	"\x0eNumberResponse\x12\x10\n" +
-	"\x03sum\x18\x01 \x01(\x05R\x03sum\"'\n" +
-	"\vChatMessage\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\x9e\x02\n" +
+	"\x03sum\x18\x01 \x01(\x05R\x03sum\"0\n" +
+	"\vChatMessage\x12!\n" +
+	"\amessage\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\amessage2\x9e\x02\n" +
 	"\n" +
 	"Calculator\x126\n" +
 	"\x03Add\x12\x16.calculator.AddRequest\x1a\x17.calculator.AddResponse\x12R\n" +
@@ -367,19 +369,19 @@ const file_proto_main_proto_rawDesc = "" +
 	"\x04Chat\x12\x17.calculator.ChatMessage\x1a\x17.calculator.ChatMessage(\x010\x01B\x13Z\x11/proto/gen;mainpbb\x06proto3"
 
 var (
-	file_proto_main_proto_rawDescOnce sync.Once
-	file_proto_main_proto_rawDescData []byte
+	file_main_proto_rawDescOnce sync.Once
+	file_main_proto_rawDescData []byte
 )
 
-func file_proto_main_proto_rawDescGZIP() []byte {
-	file_proto_main_proto_rawDescOnce.Do(func() {
-		file_proto_main_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_main_proto_rawDesc), len(file_proto_main_proto_rawDesc)))
+func file_main_proto_rawDescGZIP() []byte {
+	file_main_proto_rawDescOnce.Do(func() {
+		file_main_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_main_proto_rawDesc), len(file_main_proto_rawDesc)))
 	})
-	return file_proto_main_proto_rawDescData
+	return file_main_proto_rawDescData
 }
 
-var file_proto_main_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_proto_main_proto_goTypes = []any{
+var file_main_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_main_proto_goTypes = []any{
 	(*AddRequest)(nil),        // 0: calculator.AddRequest
 	(*AddResponse)(nil),       // 1: calculator.AddResponse
 	(*FibonacciRequest)(nil),  // 2: calculator.FibonacciRequest
@@ -388,7 +390,7 @@ var file_proto_main_proto_goTypes = []any{
 	(*NumberResponse)(nil),    // 5: calculator.NumberResponse
 	(*ChatMessage)(nil),       // 6: calculator.ChatMessage
 }
-var file_proto_main_proto_depIdxs = []int32{
+var file_main_proto_depIdxs = []int32{
 	0, // 0: calculator.Calculator.Add:input_type -> calculator.AddRequest
 	2, // 1: calculator.Calculator.GenerateFibonacci:input_type -> calculator.FibonacciRequest
 	4, // 2: calculator.Calculator.SendNumbers:input_type -> calculator.NumberRequest
@@ -404,26 +406,26 @@ var file_proto_main_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_proto_main_proto_init() }
-func file_proto_main_proto_init() {
-	if File_proto_main_proto != nil {
+func init() { file_main_proto_init() }
+func file_main_proto_init() {
+	if File_main_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_main_proto_rawDesc), len(file_proto_main_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_main_proto_rawDesc), len(file_main_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_main_proto_goTypes,
-		DependencyIndexes: file_proto_main_proto_depIdxs,
-		MessageInfos:      file_proto_main_proto_msgTypes,
+		GoTypes:           file_main_proto_goTypes,
+		DependencyIndexes: file_main_proto_depIdxs,
+		MessageInfos:      file_main_proto_msgTypes,
 	}.Build()
-	File_proto_main_proto = out.File
-	file_proto_main_proto_goTypes = nil
-	file_proto_main_proto_depIdxs = nil
+	File_main_proto = out.File
+	file_main_proto_goTypes = nil
+	file_main_proto_depIdxs = nil
 }

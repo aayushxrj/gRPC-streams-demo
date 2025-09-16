@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.32.0
-// source: proto/main.proto
+// source: main.proto
 
 package mainpb
 
@@ -222,5 +222,5 @@ var Calculator_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "proto/main.proto",
+	Metadata: "main.proto",
 }
